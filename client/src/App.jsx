@@ -27,9 +27,10 @@ function App() {
                 >
                     <div className="col pt-3 pb-2">
                         <h2>{blog.title}</h2>
-                        <p>{blog.content}</p>
+                        <p>{blog.content.substring(0, 250)}</p>
                         <p className="text-muted">
-                            {blog.author}, {blog.createdAt}
+                            {blog.author},{" "}
+                            {new Date(blog.createdAt).toLocaleString()}
                         </p>
                     </div>
                 </div>
