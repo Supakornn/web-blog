@@ -1,5 +1,7 @@
 import { useState } from "react";
-
+import NavbarComponent from "./NavbarComponent";
+import axios from "axios";
+import Swal from "sweetalert2";
 const FormComponent = () => {
     const [state, setState] = useState({
         title: "",
@@ -10,10 +12,29 @@ const FormComponent = () => {
     const inputValue = (name) => (event) => {
         setState({ ...state, [name]: event.target.value });
     };
+
+    const submitForm = (e) => {
+        e.preventDefault();
+        console.log("API", process.env.REACT_APP_API);
+        axios
+            .post(`${process.env.REACT_APP_API}/create`, {
+                title,
+                content,
+                author
+            })
+            .then((response) => {
+                Swal.fire("Success", "Your blog already added", "success");
+                setState({ ...state, title: "", content: "", author: "" });
+            })
+            .catch((error) => {
+                Swal.fire("Sorry.", error.response.data.error, "error");
+            });
+    };
     return (
         <div className="container p-5">
+            <NavbarComponent />
             <h1>Write Blog</h1>
-            <form action="">
+            <form onSubmit={submitForm}>
                 <div className="form-group">
                     <label>Title</label>
                     <input
