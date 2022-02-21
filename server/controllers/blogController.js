@@ -23,3 +23,10 @@ exports.showBlog = (req, res) => {
         res.json(blogs);
     });
 };
+
+exports.showOneBlog = (req, res) => {
+    const { slug } = req.params;
+    Blogs.findOne({ slug }).exec((err, blog) => {
+        res.json(blog);
+    });
+};
