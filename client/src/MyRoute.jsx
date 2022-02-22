@@ -1,14 +1,18 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import App from "./App";
 import FormComponent from "./components/FormComponent";
+import SingleComponent from "./components/singleComponent";
+import EditComponent from "./components/EditComponent";
 
 const MyRoute = () => {
     return (
         <BrowserRouter>
-            <Routes>
-                <Route path="/" exact element={<App />} />
-                <Route path="/create" exact element={<FormComponent />} />
-            </Routes>
+            <Switch>
+                <Route path="/" exact component={App} />
+                <Route path="/create" exact component={FormComponent} />
+                <Route path="/blog/:slug" exact component={SingleComponent} />
+                <Route path="/blog/edit/:slug" exact component={EditComponent} />
+            </Switch>
         </BrowserRouter>
     );
 };
