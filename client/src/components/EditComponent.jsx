@@ -2,19 +2,31 @@ import { useState, useEffect } from "react";
 import NavbarComponent from "./NavbarComponent";
 import axios from "axios";
 import Swal from "sweetalert2";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 const EditComponent = (props) => {
     const [state, setState] = useState({
         title: "",
-        content: "",
-        author: ""
+        author: "",
+        slug: ""
     });
-    const { title, content, author } = state;
+    const { title, author, slug } = state;
+
+    const [content, setContent] = useState("");
+    const submitContent = (event) => {
+        setContent(event);
+    };
+    const inputValue = (name) => (event) => {
+        setState({ ...state, [name]: event.target.value });
+    };
 
     useEffect(() => {
         axios
             .get(`${process.env.REACT_APP_API}/blog/${props.match.params.slug}`)
             .then((response) => {
-                console.log(response.data);
+                const { title, content, author, slug } = response.data;
+                setState({ ...state, title, author, slug });
+                setContent(content);
             })
             .catch((err) => {
                 alert(err);
@@ -22,32 +34,30 @@ const EditComponent = (props) => {
         // eslint-disable-next-line
     }, []);
 
-    const inputValue = (name) => (event) => {
-        setState({ ...state, [name]: event.target.value });
+    const submitForm = (e) => {
+        e.preventDefault();
+        console.log("API", process.env.REACT_APP_API);
+        axios
+            .put(`${process.env.REACT_APP_API}/blog/${slug}`, {
+                title,
+                content,
+                author
+            })
+            .then((response) => {
+                Swal.fire("Success", "Your blog has been update", "success");
+                const { title, content, author, slug } = response.data;
+                setState({ ...state, title, author, slug });
+                setContent(content);
+            })
+            .catch((error) => {
+                Swal.fire("Sorry.");
+            });
     };
-
-    // const submitForm = (e) => {
-    //     e.preventDefault();
-    //     console.log("API", process.env.REACT_APP_API);
-    //     axios
-    //         .post(`${process.env.REACT_APP_API}/create`, {
-    //             title,
-    //             content,
-    //             author
-    //         })
-    //         .then((response) => {
-    //             Swal.fire("Success", "Your blog already added", "success");
-    //             setState({ ...state, title: "", content: "", author: "" });
-    //         })
-    //         .catch((error) => {
-    //             Swal.fire("Sorry.", error.response.data.error, "error");
-    //         });
-    // };
     return (
         <div className="container p-5">
             <NavbarComponent />
-            <h1>Write Blog</h1>
-            {/* <form onSubmit={submitForm}>
+            <h1>Edit Blog</h1>
+            <form onSubmit={submitForm}>
                 <div className="form-group">
                     <label>Title</label>
                     <input
@@ -59,11 +69,12 @@ const EditComponent = (props) => {
                 </div>
                 <div className="form-group">
                     <label>Content</label>
-                    <textarea
-                        type="text"
-                        className="form-control"
+                    <ReactQuill
                         value={content}
-                        onChange={inputValue("content")}
+                        onChange={submitContent}
+                        theme="snow"
+                        className="pb-5 mb-3"
+                        style={{ border: "1px solid #666" }}
                     />
                 </div>
                 <div className="form-group">
@@ -76,8 +87,8 @@ const EditComponent = (props) => {
                     />
                 </div>
                 <br />
-                <input type="submit" value="Submit" className="btn btn-success" />
-            </form> */}
+                <input type="submit" value="Update" className="btn btn-success" />
+            </form>
         </div>
     );
 };

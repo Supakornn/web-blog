@@ -2,15 +2,22 @@ import { useState } from "react";
 import NavbarComponent from "./NavbarComponent";
 import axios from "axios";
 import Swal from "sweetalert2";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 const FormComponent = () => {
     const [state, setState] = useState({
         title: "",
-        content: "",
         author: ""
     });
-    const { title, content, author } = state;
+    const { title, author } = state;
+    const [content, setContent] = useState("");
+
     const inputValue = (name) => (event) => {
         setState({ ...state, [name]: event.target.value });
+    };
+
+    const submitContent = (event) => {
+        setContent(event);
     };
 
     const submitForm = (e) => {
@@ -24,7 +31,8 @@ const FormComponent = () => {
             })
             .then((response) => {
                 Swal.fire("Success", "Your blog already added", "success");
-                setState({ ...state, title: "", content: "", author: "" });
+                setState({ ...state, title: "", author: "" });
+                setContent("");
             })
             .catch((error) => {
                 Swal.fire("Sorry.", error.response.data.error, "error");
@@ -46,11 +54,12 @@ const FormComponent = () => {
                 </div>
                 <div className="form-group">
                     <label>Content</label>
-                    <textarea
-                        type="text"
-                        className="form-control"
+                    <ReactQuill
                         value={content}
-                        onChange={inputValue("content")}
+                        onChange={submitContent}
+                        theme="snow"
+                        className="pb-5 mb-3"
+                        style={{ border: "1px solid #666" }}
                     />
                 </div>
                 <div className="form-group">
@@ -63,11 +72,7 @@ const FormComponent = () => {
                     />
                 </div>
                 <br />
-                <input
-                    type="submit"
-                    value="Submit"
-                    className="btn btn-success"
-                />
+                <input type="submit" value="Submit" className="btn btn-success" />
             </form>
         </div>
     );
