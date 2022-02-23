@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import renderHTML from "react-render-html";
+import { getUsername } from "../src/services/authorize";
 function App() {
   const [blogs, setBlogs] = useState([]);
   const fetchData = () => {
@@ -55,13 +56,17 @@ function App() {
             <p className="text-muted">
               {blog.author}, {new Date(blog.createdAt).toLocaleString()}
             </p>
-            <Link className="btn btn-outline-primary" to={`blog/edit/${blog.slug}`}>
-              Edit
-            </Link>{" "}
-            &nbsp;
-            <button className="btn btn-outline-danger" onClick={() => confirmDelete(blog.slug)}>
-              Delete
-            </button>
+            {getUsername() && (
+              <div>
+                <Link className="btn btn-outline-primary" to={`blog/edit/${blog.slug}`}>
+                  Edit
+                </Link>{" "}
+                &nbsp;
+                <button className="btn btn-outline-danger" onClick={() => confirmDelete(blog.slug)}>
+                  Delete
+                </button>
+              </div>
+            )}
           </div>
         </div>
       ))}

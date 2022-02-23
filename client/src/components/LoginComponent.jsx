@@ -1,8 +1,8 @@
 import NavbarComponent from "./NavbarComponent";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { authenticate } from "../services/authorize";
+import { authenticate, getUsername } from "../services/authorize";
 import { withRouter } from "react-router-dom";
 const LoginComponent = (props) => {
   const [state, setState] = useState({
@@ -21,13 +21,16 @@ const LoginComponent = (props) => {
     axios
       .post(`${process.env.REACT_APP_API}/login`, { username, password })
       .then((response) => {
-        authenticate(response, () => props.history.push("/"));
+        authenticate(response, () => props.history.push("/create"));
         console.log(response);
       })
       .catch((error) => {
         Swal.fire("Sorry.", error.response.data.error, "error");
       });
   };
+  useEffect(() => {
+    getUsername() && props.history.push("/");
+  }, []);
 
   return (
     <div className="container p-5">
