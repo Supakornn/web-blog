@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const {
-    create,
-    showBlog,
-    showOneBlog,
-    removeBlog,
-    updateBlog
+  create,
+  showBlog,
+  showOneBlog,
+  removeBlog,
+  updateBlog
 } = require("../controllers/blogController");
 router.post("/create", create);
 router.get("/blogs", showBlog);
