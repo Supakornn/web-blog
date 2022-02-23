@@ -1,7 +1,10 @@
 import NavbarComponent from "./NavbarComponent";
 import { useState } from "react";
 import axios from "axios";
-const LoginComponent = () => {
+import Swal from "sweetalert2";
+import { authenticate } from "../services/authorize";
+import { withRouter } from "react-router-dom";
+const LoginComponent = (props) => {
   const [state, setState] = useState({
     username: "",
     password: ""
@@ -18,10 +21,11 @@ const LoginComponent = () => {
     axios
       .post(`${process.env.REACT_APP_API}/login`, { username, password })
       .then((response) => {
+        authenticate(response, () => props.history.push("/"));
         console.log(response);
       })
       .catch((error) => {
-        console.error(error);
+        Swal.fire("Sorry.", error.response.data.error, "error");
       });
   };
 
@@ -55,4 +59,4 @@ const LoginComponent = () => {
   );
 };
 
-export default LoginComponent;
+export default withRouter(LoginComponent);

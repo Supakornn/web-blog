@@ -23,7 +23,7 @@ const SingleComponent = (props) => {
       {blog && (
         <div>
           <h1>{blog.title}</h1>
-          <p>{renderHTML(blog.content)}</p>
+          <div>{renderHTML(blog.content)}</div>
           <p className="text-muted">
             {blog.author}, {new Date(blog.createdAt).toLocaleString()}
           </p>

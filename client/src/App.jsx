@@ -51,7 +51,7 @@ function App() {
             <Link to={`/blog/${blog.slug}`}>
               <h2>{blog.title}</h2>
             </Link>
-            <p>{renderHTML(blog.content.substring(0, 250))}</p>
+            <div>{renderHTML(blog.content.substring(0, 250))}</div>
             <p className="text-muted">
               {blog.author}, {new Date(blog.createdAt).toLocaleString()}
             </p>
