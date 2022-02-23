@@ -1,5 +1,5 @@
 export const authenticate = (response, next) => {
-  if (window !== "undefined") {
+  if (window != "undefined") {
     sessionStorage.setItem("token", JSON.stringify(response.data.token));
     sessionStorage.setItem("username", JSON.stringify(response.data.username));
   }
@@ -7,7 +7,7 @@ export const authenticate = (response, next) => {
 };
 
 export const getToken = () => {
-  if (window !== "undefined") {
+  if (window != "undefined") {
     if (sessionStorage.getItem("token")) {
       return JSON.parse(sessionStorage.getItem("token"));
     } else {
@@ -17,7 +17,7 @@ export const getToken = () => {
 };
 
 export const getUsername = () => {
-  if (window !== "undefined") {
+  if (window != "undefined") {
     if (sessionStorage.getItem("username")) {
       return JSON.parse(sessionStorage.getItem("username"));
     } else {

@@ -4,10 +4,11 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { getToken, getUsername } from "../services/authorize";
 const FormComponent = () => {
   const [state, setState] = useState({
     title: "",
-    author: ""
+    author: getUsername()
   });
   const { title, author } = state;
   const [content, setContent] = useState("");
@@ -24,11 +25,19 @@ const FormComponent = () => {
     e.preventDefault();
     console.log("API", process.env.REACT_APP_API);
     axios
-      .post(`${process.env.REACT_APP_API}/create`, {
-        title,
-        content,
-        author
-      })
+      .post(
+        `${process.env.REACT_APP_API}/create`,
+        {
+          title,
+          content,
+          author
+        },
+        {
+          headers: {
+            authorization: `Bearer ${getToken()}`
+          }
+        }
+      )
       .then((response) => {
         Swal.fire("Success", "Your blog already added", "success");
         setState({ ...state, title: "", author: "" });

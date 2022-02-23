@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-
+const expressJWT = require("express-jwt");
 exports.login = (req, res) => {
   const { username, password } = req.body;
   if (password === process.env.PASSWORD) {
@@ -9,3 +9,9 @@ exports.login = (req, res) => {
     return res.status(400).json({ error: "Wrong password!" });
   }
 };
+
+exports.requireLogin = expressJWT({
+  secret: process.env.JWT_SECRET,
+  algorithms: ["HS256"],
+  userProperty: "auth"
+});
