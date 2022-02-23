@@ -21,7 +21,7 @@ const LoginComponent = () => {
         console.log(response);
       })
       .catch((error) => {
-        log.error(error);
+        console.error(error);
       });
   };
 
