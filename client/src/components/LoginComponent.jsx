@@ -15,7 +15,14 @@ const LoginComponent = () => {
 
   const submitForm = (e) => {
     e.preventDefault();
-    axios.post(`${process.env.REACT_APP_API}/login`, { username, password });
+    axios
+      .post(`${process.env.REACT_APP_API}/login`, { username, password })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        log.error(error);
+      });
   };
 
   return (
