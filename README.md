@@ -4,6 +4,11 @@ This project made with React.JS
 
 ![image](https://cdn.discordapp.com/attachments/925063485556150292/946109065598222356/unknown.png)
 
+# Install
+```
+npm install
+```
+
 # Example
 
 ```js
