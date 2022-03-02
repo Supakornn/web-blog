@@ -1,6 +1,6 @@
 # Web-blogs
 
-This project made with React.JS
+This project made with MERN Stack
 
 ![image](https://cdn.discordapp.com/attachments/925063485556150292/946109065598222356/unknown.png)
 
