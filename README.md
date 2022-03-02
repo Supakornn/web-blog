@@ -38,4 +38,3 @@ const blogSchema = mongoose.Schema(
 );
 module.exports = mongoose.model("Blogs", blogSchema);
 ```
-ZZZZ
